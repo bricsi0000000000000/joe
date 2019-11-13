@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+    Vibe:
+    <div class="stat, stat_outside">
+        <div id="vibe_stat_inside" class="stat">100%</div>
+    </div>
+
+    <br>
+    Hunger:
+    <div class="stat, stat_outside">
+        <div id="hunger_stat_inside" class="stat">100%</div>
+    </div>
+    <button onclick="eat(10)">EAT</button>
+
+    <br>
+    Thirst:
+    <div class="stat, stat_outside">
+        <div id="thirst_stat_inside" class="stat">100%</div>
+    </div>
+    <button onclick="drink(20)">DRINK</button>
+
+    <br>
+    Tired:
+    <div class="stat, stat_outside">
+        <div id="tired_stat_inside" class="stat">100%</div>
+    </div>
+
+    <button onclick="changeVibe(10)">-</button>
+
+    <script>
+        var max_stat = 400;
+
+        var dead = false;
+
+        var time_count_down = 1000;
+
+        var act_vibe = 0;
+        var act_hunger = 0;
+        var act_thirst = 0;
+        var act_tired = 0;
+
+        var hungerness = false;
+        var thirstness = false;
+
+        var hunger_down = max_stat * .01;
+        var thirst_down = max_stat * .06;
+        var vibe_hunger_down = max_stat * .01;
+        var vibe_thirst_down = max_stat * .02;
+
+        var happy_color = "#2bd13c";
+        var indifferent_color = "#e8d33a";
+        var sad_color = "#e84e3a";
+
+        function spawn(){
+            act_vibe = max_stat;
+            act_hunger = max_stat;
+            act_thirst = max_stat;
+            act_tired = max_stat;
+
+            setVibe();
+            setHunger();
+            setThirst();
+            setTired();
+          
+        }
+
+        //--------VIBE-----------
+        function setVibe(){
+            setStat("vibe_stat_inside", act_vibe);
+            changeStatColor("vibe_stat_inside", act_vibe);
+            setStatValue("vibe_stat_inside", act_vibe);
+        }
+        //--------HUNGER-----------
+        function eat(food) {
+            if(act_hunger + food <= max_stat){
+                act_hunger += food;
+            }
+            else{
+                act_hunger = max_stat;
+            }
+            setHunger();
+        }
+        function hunger(n){
+            hungerness = false;
+            if(act_hunger - n >= 0){
+                act_hunger -= n;
+            }
+            else{
+                act_hunger = 0;
+                hungerness = true;
+            }
+            setHunger();
+        }
+        function setHunger(){
+            setStat("hunger_stat_inside", act_hunger);
+            changeStatColor("hunger_stat_inside", act_hunger);
+            setStatValue("hunger_stat_inside", act_hunger);
+        }
+
+        //--------THIRST-----------
+        function drink(d) {
+            thirstness = false;
+            if(act_thirst + d <= max_stat){
+                act_thirst += d;
+            }
+            else{
+                act_thirst = max_stat;
+            }
+            setThirst();
+        }
+        function thirst(n){
+            if(act_thirst - n >= 0){
+                act_thirst -= n;
+            }
+            else{
+                act_thirst = 0;
+                thirstness = true;
+            }
+            setThirst();
+        }
+        function setThirst(){
+            setStat("thirst_stat_inside", act_thirst);
+            changeStatColor("thirst_stat_inside", act_thirst);
+            setStatValue("thirst_stat_inside", act_thirst);
+        }
+
+        //--------TIRED-----------
+        function setTired(){
+            setStat("tired_stat_inside", act_tired);
+            changeStatColor("tired_stat_inside", act_tired);
+            setStatValue("tired_stat_inside", act_tired);
+        }
+
+        //-------LIFE----------
+        async function life(){
+            while(!dead){
+                await waitForSec(time_count_down);
+
+                if(!hungerness){
+                    hunger(hunger_down);
+                }
+                else{
+                    console.log("HUNGER");
+                }
+
+                if(!thirstness){
+                    thirst(thirst_down);
+                }
+                else{
+                    console.log("THIRST");
+                }
+
+                checkVibe();
+
+                var xhr=new XMLHttpRequest();xhr.open("GET","%" + act_vibe /*+ ";" + act_hunger + ";" + act_thirst + ";" + act_tired */+ "%%",true);xhr.send();
+            }
+
+            gameOver();
+        }
+
+        function checkVibe(){
+            if(act_hunger <= max_stat * .5){
+                act_vibe -= vibe_hunger_down;
+                if(act_vibe <= 0){
+                    act_vibe = 0;
+                    gameOver();
+                }
+            }
+            else{
+                if(act_vibe + vibe_hunger_down <= max_stat){
+                    act_vibe += vibe_hunger_down;
+                }
+            }
+
+            if(act_thirst <= max_stat * .5){
+                act_vibe -= vibe_thirst_down;
+                if(act_vibe <= 0){
+                    act_vibe = 0;
+                    gameOver();
+                }
+            }
+            else{
+                if(act_vibe + vibe_thirst_down <= max_stat){
+                    act_vibe += vibe_thirst_down;
+                }
+            }
+
+            setVibe();
+        }
+
+        function gameOver(){
+            console.log("DEAD");
+        }
+
+        function waitForSec(ms){
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        function setStat(id, act_stat) {
+            document.getElementById(id).style.width = act_stat + "px";
+        }
+
+        function changeStatColor(id, act_stat) {
+            if (act_stat > (max_stat * (2 / 3))) {
+                document.getElementById(id).style.backgroundColor = happy_color;
+            }
+            else if (act_stat <= (max_stat * (2 / 3)) && act_stat >= (max_stat * (1 / 3))) {
+                document.getElementById(id).style.backgroundColor = indifferent_color;
+            }
+            else {
+                document.getElementById(id).style.backgroundColor = sad_color;
+            }
+        }
+
+        function setStatValue(id, act_stat){
+            document.getElementById(id).innerHTML = ((act_stat / max_stat) * 100).toFixed(0) + "%";
+        }
+
+        spawn();
+        life();
+
+    </script>
+</body>
+
+</html>
