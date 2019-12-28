@@ -1,3 +1,3 @@
 # Joe
 
-## Fejlesztői dokumentáció
+## Felhasználói dokumentáció
