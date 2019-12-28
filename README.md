@@ -2,6 +2,11 @@
 
 ## Tárgy: Mikroelektromechanikai rendszerek GKNB_INTM020
 
+## Csapattagok
+
+- Fruzsina Mihalovics
+- Bólya Richárd
+
 ### Történet
 
 Joe az űrlény, akit az 51-es körzetből szöktettek meg.
