@@ -1,15 +1,18 @@
-# joe
+# Joe
 
-Tárgy: Mikroelektromechanikai rendszerek GKNB_INTM020
+## Tárgy: Mikroelektromechanikai rendszerek GKNB_INTM020
+
+### Történet
 
 Joe az űrlény, akit az 51-es körzetből szöktettek meg.
 
-Hardware:
+### Hardware
+
 - Arduino UNO
 - esp8266
 
-Szenzorok:
-- mikrofon
-- buzzer
-- eldőlés érzékelő
-- ledmátrix
+### Szenzorok
+
+- passive buzzer
+- tilt switch module
+- 8x8 led matrix
