@@ -1,0 +1,15 @@
+.stat{
+    text-align: center;
+}
+
+.stat_outside, .stat{
+    width: 400px;
+    height: 50px;
+    background-color: rgb(48, 48, 48);
+}
+
+#stat_inside, .stat{
+    width: 300px;
+    height: 50px;
+    background-color: rgb(79, 212, 52);
+}
