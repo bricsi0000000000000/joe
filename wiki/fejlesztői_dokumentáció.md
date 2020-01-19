@@ -1,6 +1,6 @@
-Fejlesztői dokumentáció
+# Fejlesztői dokumentáció
 
-Hardware
+## Hardware
 
 A hardware 2 mikrokontrollerből és 3 szenzorból áll.
 
