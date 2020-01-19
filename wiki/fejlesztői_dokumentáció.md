@@ -610,3 +610,55 @@ var options = {
 var chart = new google.charts.Line(document.getElementById('chart'));  
 chart.draw(data, google.charts.Line.convertOptions(options));
 ```
+
+---
+
+## backend
+
+### backend.php
+
+A script először csatlakozik az sql adatbázishoz.
+```
+$conn = new mysqli(DB_HOST, DB_USER,DB_PASS, DB_NAME);
+if ($conn->connect_error) {
+    http_response_code(404);
+    die("Connection failed: " . $conn->connect_error);
+}
+```
+
+4 *action*-t kezel le ez a script.
+
+- `save_datas`
+Ez az *action* menti el az adatbázisba a `GET` tömbben megkapott értékeket.
+
+```
+$sql='insert into properties (id,vibe,hunger,thirst,tired) values("",'.$_GET['act_vibe'].','.$_GET['act_hunger'].','.$_GET['act_thirst'].','.$_GET['act_tired'].')';
+$conn->query($sql);
+```
+
+- `get_datas`
+Ez az *action* adja vissza a `GET` tömbbe az értékeket az adatbázisból.
+
+```
+$sql='select * from properties';
+$result = $conn->query($sql);
+
+if($result->num_rows > 0)
+{
+    $values = $result->fetch_all(MYSQLI_ASSOC);
+    echo json_encode($values);
+}
+```
+
+- `delete_datas`
+Ez az *action* kitörli az adatokat az adatbázisból.
+
+```
+$sql='delete from properties';
+$conn->query($sql);
+```
+
+- `send_mail`
+Ez az *action* küldi ki az emailt.
+
+`mail($to,$subject,$message,$headers);`
