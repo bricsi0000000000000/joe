@@ -3,22 +3,22 @@ from machine import Pin
 import random
 import time
 
+
 DIN = Pin(4, Pin.OUT) #D2 - szürke
 CLK = Pin(2, Pin.OUT) #D4 - fekete
 CS = Pin(0, Pin.OUT)  #D3 - fehér
 
-MOZOG = Pin(14, Pin.IN)
+MOZOG = Pin(14, Pin.IN) #D5
+HANG = Pin(12, Pin.OUT) #D6
 
-#joe
-nyitott_szem = bytes([0x81, 0x18, 0x3c, 0x7e, 0x7e, 0x3c, 0x18, 0x81])
-pislog1 = bytes([0x87, 0x1b, 0x3d, 0x7f, 0x7f, 0x3d, 0x1b, 0x87])
-pislog2 = bytes([0x8f, 0x1f, 0x3f, 0x7f, 0x7f, 0x3f, 0x1f, 0x8f])
-csukott_szem = bytes([0xbf, 0x3f, 0x7f, 0x7f, 0x7f, 0x7f, 0x3f, 0xbf])
-mosoly = bytes([0x00, 0x40, 0x8c, 0x9e, 0x9e, 0x8c, 0x40, 0x00])
-szomor = bytes([0x00, 0x80, 0x4c, 0x5e, 0x5e, 0x4c, 0x80, 0x00])
-ehesseg = bytes([0x00, 0x40, 0x4c, 0x5e, 0x5e, 0x4c, 0x40, 0x00])
-szomlyassag = bytes([0x00, 0x40, 0xe6, 0xaf, 0xaf, 0xe6, 0x40, 0x00])
-ko = bytes([0x00, 0x42, 0x24, 0x18, 0x18, 0x24, 0x42, 0x00])
+mosoly = bytes([0x3c, 0x42, 0x99, 0xbd, 0xbd, 0x99, 0x42, 0x3c])
+szomor = bytes([0x00, 0x00, 0x00, 0xc3, 0xff, 0x7e, 0x3c, 0x18])
+ehesseg = bytes([0x3c, 0x42, 0x81, 0x81, 0xbd, 0x99, 0x42, 0x3c])
+szomlyassag = bytes([0x3c, 0x42, 0x99, 0xad, 0xa5, 0x99, 0x42, 0x3c])
+death = bytes([0x00, 0x42, 0x24, 0x18, 0x18, 0x24, 0x42, 0x00])
+gonosz = bytes([0x00, 0x00, 0x81, 0xe7, 0xff, 0xbd, 0x42, 0x3c])
+alszik = bytes([0x00, 0x00, 0x00, 0x7e, 0xbd, 0x99, 0x42, 0x3c])
+
 
 def mosolyog():
      for i in range(1, 9):
@@ -32,36 +32,15 @@ def ehes():
 def szomlyas():
      for i in range(1, 9):
         write(i, szomlyassag[i - 1])
-def szemNyit():
+def merges():
+     for i in range(1, 9):
+        write(i, gonosz[i - 1])
+def dead():
     for i in range(1, 9):
-        write(i, nyitott_szem[i - 1])
-def pislogFazis1():
+        write(i, death[i - 1])
+def sleep():
     for i in range(1, 9):
-        write(i, pislog1[i - 1])
-def pislogFazis2():
-    for i in range(1, 9):
-        write(i, pislog2[i - 1])
-def szemCsuk():
-    for i in range(1, 9):
-        write(i, csukott_szem[i - 1])
-def KO():
-    for i in range(1, 9):
-        write(i, ko[i - 1])
-pislog_wait = .3
-def pislog():
-    szemNyit()
-    time.sleep(pislog_wait)
-    pislogFazis1()
-    time.sleep(pislog_wait)
-    pislogFazis2()
-    time.sleep(pislog_wait)
-    szemCsuk()
-    time.sleep(pislog_wait)
-    pislogFazis2()
-    time.sleep(pislog_wait)
-    pislogFazis1()
-    time.sleep(pislog_wait)
-    szemNyit()
+        write(i, alszik[i - 1])
 
 def writeByte(DATA):
     i = 0
@@ -88,64 +67,63 @@ def init():
 init()
 
 def web_page():
-    """
-    f = open("index.html", "r")
-    html = f.read()"""
-    html = "<!DOCTYPE html><!DOCTYPE html><html><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><meta http-equiv=\"X-UA-Compatible\" content=\"ie=edge\"><title>Joe</title><style>.stat{text-align:center}.stat,.stat_outside{width:400px;height:50px;background-color:rgb(48, 48, 48)}#stat_inside,.stat{width:300px;height:50px;background-color:rgb(79, 212, 52)}button{height:40px}</style></head><body> Vibe: <div class=\"stat, stat_outside\"><div id=\"vibe_stat_inside\" class=\"stat\">100%</div></div><br> Hunger: <div class=\"stat, stat_outside\"><div id=\"hunger_stat_inside\" class=\"stat\">100%</div></div><button onclick=\"eat(10)\">EAT</button><br> Thirst: <div class=\"stat, stat_outside\"><div id=\"thirst_stat_inside\" class=\"stat\">100%</div></div><button onclick=\"drink(20)\">DRINK</button><br> Tired: <div class=\"stat, stat_outside\"><div id=\"tired_stat_inside\" class=\"stat\">100%</div></div><script>var max_stat=400;var dead=false;var time_count_down=1000;var act_vibe=0;var act_hunger=0;var act_thirst=0;var act_tired=0;var hungerness=false;var thirstness=false;var hunger_down=max_stat*.01;var thirst_down=max_stat*.06;var vibe_hunger_down=max_stat*.01;var vibe_thirst_down=max_stat*.02;var happy_color=\"#2bd13c\";var indifferent_color=\"#e8d33a\";var sad_color=\"#e84e3a\";function spawn(){act_vibe=max_stat;act_hunger=max_stat;act_thirst=max_stat;act_tired=max_stat;setVibe();setHunger();setThirst();setTired()}function setVibe(){setStat(\"vibe_stat_inside\",act_vibe);changeStatColor(\"vibe_stat_inside\",act_vibe);setStatValue(\"vibe_stat_inside\",act_vibe)}function eat(food){if(act_hunger+food<=max_stat){act_hunger+=food}else{act_hunger=max_stat}setHunger()}function hunger(n){if(act_hunger-n>=0){act_hunger-=n}else{act_hunger=0;hungerness=true}setHunger()}function setHunger(){setStat(\"hunger_stat_inside\",act_hunger);changeStatColor(\"hunger_stat_inside\",act_hunger);setStatValue(\"hunger_stat_inside\",act_hunger)}function drink(d){if(act_thirst+d<=max_stat){act_thirst+=d}else{act_thirst=max_stat}setThirst()}function thirst(n){if(act_thirst-n>=0){act_thirst-=n}else{act_thirst=0;thirstness=true}setThirst()}function setThirst(){setStat(\"thirst_stat_inside\",act_thirst);changeStatColor(\"thirst_stat_inside\",act_thirst);setStatValue(\"thirst_stat_inside\",act_thirst)}function setTired(){setStat(\"tired_stat_inside\",act_tired);changeStatColor(\"tired_stat_inside\",act_tired);setStatValue(\"tired_stat_inside\",act_tired)}async function life(){while(!dead){await waitForSec(time_count_down);if(!hungerness){hunger(hunger_down)}else{console.log(\"HUNGER\")}if(!thirstness){thirst(thirst_down)}else{console.log(\"THIRST\")}checkVibe();var xhr=new XMLHttpRequest();xhr.open(\"GET\",\"%\"+act_hunger+\";\"+act_thirst +\"%%\",true);xhr.send()}gameOver()}function checkVibe(){if(act_hunger<=max_stat*.5){act_vibe-=vibe_hunger_down;if(act_vibe<=0){act_vibe=0;gameOver()}}else{if(act_vibe+vibe_hunger_down<=max_stat){act_vibe+=vibe_hunger_down}}if(act_thirst<=max_stat*.5){act_vibe-=vibe_thirst_down;if(act_vibe<=0){act_vibe=0;gameOver()}}else{if(act_vibe+vibe_thirst_down<=max_stat){act_vibe+=vibe_thirst_down}}setVibe()}function gameOver(){console.log(\"DEAD\")}function waitForSec(ms){return new Promise(resolve=>setTimeout(resolve,ms))}function setStat(id,act_stat){document.getElementById(id).style.width=act_stat+\"px\"}function changeStatColor(id,act_stat){if(act_stat>(max_stat*(2/3))){document.getElementById(id).style.backgroundColor=happy_color}else if(act_stat<=(max_stat*(2/3))&&act_stat>=(max_stat*(1/3))){document.getElementById(id).style.backgroundColor=indifferent_color}else{document.getElementById(id).style.backgroundColor=sad_color}}function setStatValue(id,act_stat){document.getElementById(id).innerHTML=((act_stat/max_stat)*100).toFixed(0)+\"%\"}spawn();life();</script> ; kedv: <div id=\"kedv\">jó</div><button onclick=\"valt()\">kedv változtatása</button></body></html>;"
+    html = "<!DOCTYPE html><head><meta charset=\"utf-8\"><title>Joe</title><link rel=\"stylesheet\" href=\"http://richard.bolya.eu/images/joe/style.css\"><script type=\"text/javascript\" src=\"https://www.gstatic.com/charts/loader.js\"></script></head><body><div id=\"joe\" class=\"\"><div class=\"bars\"><span class=\"text\">Kedv</span><div class=\"stat, stat_outside\"><div id=\"vibe_stat_inside\" class=\"stat\">100%</div></div><br><span class=\"text\">Éhség</span><div class=\"stat, stat_outside\"><div id=\"hunger_stat_inside\" class=\"stat\">100%</div></div><br><span class=\"text\">Szomjúság</span><div class=\"stat, stat_outside\"><div id=\"thirst_stat_inside\" class=\"stat\">100%</div></div><br><span class=\"text\">Fáradtság</span><div class=\"stat, stat_outside\"><div id=\"tired_stat_inside\" class=\"stat\">100%</div></div></div><div class=\"menu\"><div class=\"datas\"><span class=\"text\" id=\"wallet\"></span></div><span class=\"text\">Ételek</span><div class=\"inventory\"><img class=\"item\" onclick=\"eat(60, 'croissant')\" onmouseover=\"showInfo('croissant')\" onmouseleave=\"showInfo('')\" src=\"http://richard.bolya.eu/images/joe/croasan.png\" alt=\"\"><img class=\"item\" onclick=\"eat(190, 'pizza')\" onmouseover=\"showInfo('pizza')\" onmouseleave=\"showInfo('')\" src=\"http://richard.bolya.eu/images/joe/pizza.png\" alt=\"\"><img class=\"item\" onclick=\"eat(170, 'sandwich')\" onmouseover=\"showInfo('sandwich')\" onmouseleave=\"showInfo('')\" src=\"http://richard.bolya.eu/images/joe/sandwich.png\" alt=\"\"><img class=\"item\" onclick=\"eat(200, 'hamburger')\" onmouseover=\"showInfo('hamburger')\" onmouseleave=\"showInfo('')\" src=\"http://richard.bolya.eu/images/joe/hamburger.png\" alt=\"\"><img class=\"item\" onclick=\"eat(50, 'toast')\" onmouseover=\"showInfo('toast')\" onmouseleave=\"showInfo('')\" src=\"http://richard.bolya.eu/images/joe/toast.png\" alt=\"\"><img class=\"item\" onclick=\"eat(10, 'ice_cream')\" onmouseover=\"showInfo('ice_cream')\" onmouseleave=\"showInfo('')\" src=\"http://richard.bolya.eu/images/joe/ice_cream.png\" alt=\"\"><img class=\"item\" onclick=\"eat(130, 'taco')\" onmouseover=\"showInfo('taco')\" onmouseleave=\"showInfo('')\" src=\"http://richard.bolya.eu/images/joe/taco.png\" alt=\"\"><img class=\"item\" onclick=\"eat(40, 'donut')\" onmouseover=\"showInfo('donut')\" onmouseleave=\"showInfo('')\" src=\"http://richard.bolya.eu/images/joe/donut.png\" alt=\"\"></div><span class=\"text\">Italok</span><div class=\"inventory\"><img class=\"item\" onclick=\"drink(200, 'alien_juice')\" onmouseover=\"showInfo('alien_juice')\" onmouseleave=\"showInfo('')\" src=\"http://richard.bolya.eu/images/joe/alien_juice.png\" alt=\"\"><img class=\"item\" onclick=\"drink(110, 'apple_juice')\" onmouseover=\"showInfo('apple_juice')\" onmouseleave=\"showInfo('')\" src=\"http://richard.bolya.eu/images/joe/apple_juice.png\" alt=\"\"><img class=\"item\" onclick=\"drink(10, 'beer')\" onmouseover=\"showInfo('beer')\" onmouseleave=\"showInfo('')\" src=\"http://richard.bolya.eu/images/joe/beer.png\" alt=\"\"><img class=\"item\" onclick=\"drink(50, 'coffee')\" onmouseover=\"showInfo('coffee')\" onmouseleave=\"showInfo('')\" src=\"http://richard.bolya.eu/images/joe/coffee.png\" alt=\"\"><img class=\"item\" onclick=\"drink(150, 'lemonade')\" onmouseover=\"showInfo('lemonade')\" onmouseleave=\"showInfo('')\" src=\"http://richard.bolya.eu/images/joe/lemonade.png\" alt=\"\"></div><span class=\"text\">Szórakozás</span><div class=\"inventory\"><img class=\"item\" onclick=\"play('basketball', 150)\" onmouseover=\"showInfo('basketball')\" onmouseleave=\"showInfo('')\" src=\"http://richard.bolya.eu/images/joe/basketball.png\" alt=\"\"><img class=\"item\" onclick=\"play('fishing', 50)\" onmouseover=\"showInfo('fishing')\" onmouseleave=\"showInfo('')\" src=\"http://richard.bolya.eu/images/joe/fishing.png\" alt=\"\"><img class=\"item\" onclick=\"play('cinema', 0)\" onmouseover=\"showInfo('cinema')\" onmouseleave=\"showInfo('')\" src=\"http://richard.bolya.eu/images/joe/cinema.png\" alt=\"\"><img class=\"item\" onclick=\"play('reddit', 400)\" onmouseover=\"showInfo('reddit')\" onmouseleave=\"showInfo('')\" src=\"http://richard.bolya.eu/images/joe/reddit.png\" alt=\"\"><img class=\"item\" onclick=\"play('minecraft', 400)\" onmouseover=\"showInfo('minecraft')\" onmouseleave=\"showInfo('')\" src=\"http://richard.bolya.eu/images/joe/minecraft.png\" alt=\"\"></div><span class=\"text\">Alvás</span><div class=\"inventory\"><img class=\"item\" onclick=\"sleep()\" src=\"http://richard.bolya.eu/images/joe/bed.png\" alt=\"\"></div><span class=\"text\" id=\"food-info\">&nbsp</span></div></div><div id=\"new-game\" class=\"secret\"><button onclick=\"newGame()\">Újra</button></div><div id=\"footer\"><div id=\"chart\"></div></div><script src=\"http://richard.bolya.eu/images/joe/script.js\"></script></body></html>"
     return html
-
-max_vibe = 400;
-vibe = 0;
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.bind(('',80))
 s.listen(5)
-while True:
+
+while True: 
     conn, addr = s.accept()
-    #print('Kliens IP: %s' % str(addr))
     request = conn.recv(1024)
     request = str(request)
-    print('Content = %s' % str(request))
-
+    print("-------------------")
     try:
-        t = request.split('%')
-        #print(t[1])
-        datas = t[1].split(';')
-       
-        #vibe = int(datas[0])
-        hunger = int(datas[0])
-        thirst = int(datas[1])
-     
-        #print("vibe: ")
-        #print(vibe)
+        splitted_by_space = request.split(' ')
         
-        print("hunger: ")
-        print(hunger)
+        datas = splitted_by_space[1][1:].split(';')
+
+        act_vibe = datas[0]
+        act_hunger = datas[1]
+        act_thirst = datas[2]
+        act_tired = datas[3]
+        is_sleeping = datas[4]
+
+        print("act_vibe: " + act_vibe)
+        print("act_hunger: " + act_hunger)
+        print("act_thirst: " + act_thirst)
+        print("act_tired: " + act_tired)
+        print("is_sleeping: " + is_sleeping)
         
-        print("thirst: ")
-        print(thirst)
         
-        if(thirst >= 200 and hunger >= 200):
-            mosolyog()
-        elif(thirst <= 0 and hunger <= 0):
-            KO()
-       
-        
-      
-        """
-        if(vibe >= 200):
-            if(thirts < 200):
-               szomlyas()
-            else:
-                if(hunger < 200):
-                    ehes()
-                else:
-                    mosolyog()
+        if(int(act_vibe) <= 0):
+            dead()
+            HANG.value(0)
         else:
-            szomoru()
-        """
+            if(MOZOG.value() == 1):
+                merges()
+                HANG.value(1)
+            else:
+                HANG.value(0)
+                if(int(is_sleeping) == 1):
+                    sleep()
+                elif(int(act_thirst) >= 200 and int(act_hunger) >= 200):
+                    if(int(act_vibe) >= 266):
+                        mosolyog()
+                    elif (int(act_vibe) < 266 and int(act_vibe) >= 133):
+                        szomoru()
+                    else:
+                        merges()
+                elif(int(act_thirst) < 200 and int(act_hunger) >= 200):
+                    szomlyas()
+                elif(int(act_hunger) < 200 and int(act_thirst) >= 200):
+                    ehes()
+                elif(int(act_hunger) < 200 and int(act_thirst) < 200):
+                    merges()
+
     except:
-        print(len(t))
+        print("Nem találhatóak adatok")
     
     response = web_page()
     conn.send('HTTP/1.1 200 OK\n')
