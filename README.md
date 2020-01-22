@@ -4,8 +4,8 @@
 
 ## Csapattagok
 
-- Fruzsina Mihalovics
-- Bólya Richárd
+- Fruzsina Mihalovics(I6283S)
+- Bólya Richárd (DAWOBY)
 
 ### Történet
 
@@ -21,3 +21,8 @@ Joe az űrlény, akit az 51-es körzetből szöktettek meg. A rendszer egy űrl�
 - passive buzzer
 - tilt switch module
 - 8x8 led matrix
+
+### [Fejlesztői dokumentáció](https://github.com/bricsi0000000000000/joe/blob/master/wiki/fejleszt%C5%91i_dokument%C3%A1ci%C3%B3.md)
+
+### [Felhasználói dokumentáció](https://github.com/bricsi0000000000000/joe/blob/master/wiki/felhaszn%C3%A1l%C3%B3i_dokument%C3%A1ci%C3%B3.md)
+
