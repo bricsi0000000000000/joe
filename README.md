@@ -26,3 +26,4 @@ Joe az űrlény, akit az 51-es körzetből szöktettek meg. A rendszer egy űrl�
 
 ### [Felhasználói dokumentáció](https://github.com/bricsi0000000000000/joe/blob/master/wiki/felhaszn%C3%A1l%C3%B3i_dokument%C3%A1ci%C3%B3.md)
 
+![kép a projektről](https://github.com/bricsi0000000000000/joe/blob/master/images/kesz_projekt.jpg)
