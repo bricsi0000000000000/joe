@@ -6,70 +6,87 @@
     <title>Joe</title>
 
     <link rel="stylesheet" href="style.css">
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
 </head>
 
-<body id="joe" class="">
-    <div class="bars">
-        <span class="text">Kedv</span>
-        <div class="stat, stat_outside">
-            <div id="vibe_stat_inside" class="stat">100%</div>
+<body>
+    <div id="joe" class="">
+        <div class="bars">
+            <span class="text">Kedv</span>
+            <div class="stat, stat_outside">
+                <div id="vibe_stat_inside" class="stat">100%</div>
+            </div>
+        
+            <br>
+            <span class="text">Éhség</span>
+            <div class="stat, stat_outside">
+                <div id="hunger_stat_inside" class="stat">100%</div>
+            </div>
+        
+            <br>
+            <span class="text">Szomjúság</span>
+            <div class="stat, stat_outside">
+                <div id="thirst_stat_inside" class="stat">100%</div>
+            </div>
+        
+            <br>
+            <span class="text">Fáradtság</span>
+            <div class="stat, stat_outside">
+                <div id="tired_stat_inside" class="stat">100%</div>
+            </div>
         </div>
-    
-        <br>
-        <span class="text">Éhség</span>
-        <div class="stat, stat_outside">
-            <div id="hunger_stat_inside" class="stat">100%</div>
-        </div>
-    
-        <br>
-        <span class="text">Szomjasság</span>
-        <div class="stat, stat_outside">
-            <div id="thirst_stat_inside" class="stat">100%</div>
-        </div>
-    
-        <br>
-        <span class="text">Fáradtság</span>
-        <div class="stat, stat_outside">
-            <div id="tired_stat_inside" class="stat">100%</div>
-        </div>
-    </div>
-    <div class="menu">
-        <div class="datas">
-            <span class="text" id="wallet"></span>
-        </div>
-        <span class="text">Ételek</span>
-        <div class="inventory">
-            <img class="item" onclick="eat(10, 'croissant')" onmouseover="showInfo('croissant')" onmouseleave="showInfo('')" src="http://richard.bolya.eu/images/joe/croasan.png" alt="">
-            <img class="item" onclick="eat(20, 'pizza')" onmouseover="showInfo('pizza')" onmouseleave="showInfo('')" src="http://richard.bolya.eu/images/joe/pizza.png" alt="">
-            <img class="item" onclick="eat(30, 'sandwich')" onmouseover="showInfo('sandwich')" onmouseleave="showInfo('')" src="http://richard.bolya.eu/images/joe/sandwich.png" alt="">
-            <img class="item" onclick="eat(50, 'hamburger')" onmouseover="showInfo('hamburger')" onmouseleave="showInfo('')" src="http://richard.bolya.eu/images/joe/hamburger.png" alt="">
-            <img class="item" onclick="eat(6, 'toast')" onmouseover="showInfo('toast')" onmouseleave="showInfo('')" src="http://richard.bolya.eu/images/joe/toast.png" alt="">
-            <img class="item" onclick="eat(2, 'ice_cream')" onmouseover="showInfo('ice_cream')" onmouseleave="showInfo('')" src="http://richard.bolya.eu/images/joe/ice_cream.png" alt="">
-            <img class="item" onclick="eat(6, 'taco')" onmouseover="showInfo('taco')" onmouseleave="showInfo('')" src="http://richard.bolya.eu/images/joe/taco.png" alt="">
-            <img class="item" onclick="eat(4, 'donut')" onmouseover="showInfo('donut')" onmouseleave="showInfo('')" src="http://richard.bolya.eu/images/joe/donut.png" alt="">
-        </div>
+        <div class="menu">
+            <div class="datas">
+                <span class="text" id="wallet"></span>
+            </div>
+            <span class="text">Ételek</span>
+            <div class="inventory">
+                <img class="item" onclick="eat(60, 'croissant')" onmouseover="showInfo('croissant')" onmouseleave="showInfo('')" src="http://richard.bolya.eu/images/joe/croasan.png" alt="">
+                <img class="item" onclick="eat(190, 'pizza')" onmouseover="showInfo('pizza')" onmouseleave="showInfo('')" src="http://richard.bolya.eu/images/joe/pizza.png" alt="">
+                <img class="item" onclick="eat(170, 'sandwich')" onmouseover="showInfo('sandwich')" onmouseleave="showInfo('')" src="http://richard.bolya.eu/images/joe/sandwich.png" alt="">
+                <img class="item" onclick="eat(200, 'hamburger')" onmouseover="showInfo('hamburger')" onmouseleave="showInfo('')" src="http://richard.bolya.eu/images/joe/hamburger.png" alt="">
+                <img class="item" onclick="eat(50, 'toast')" onmouseover="showInfo('toast')" onmouseleave="showInfo('')" src="http://richard.bolya.eu/images/joe/toast.png" alt="">
+                <img class="item" onclick="eat(10, 'ice_cream')" onmouseover="showInfo('ice_cream')" onmouseleave="showInfo('')" src="http://richard.bolya.eu/images/joe/ice_cream.png" alt="">
+                <img class="item" onclick="eat(130, 'taco')" onmouseover="showInfo('taco')" onmouseleave="showInfo('')" src="http://richard.bolya.eu/images/joe/taco.png" alt="">
+                <img class="item" onclick="eat(40, 'donut')" onmouseover="showInfo('donut')" onmouseleave="showInfo('')" src="http://richard.bolya.eu/images/joe/donut.png" alt="">
+            </div>
 
-        <span class="text">Italok</span>
-        <div class="inventory">
-            <img class="item" onclick="drink(70, 'alien_juice')" onmouseover="showInfo('alien_juice')" onmouseleave="showInfo('')" src="http://richard.bolya.eu/images/joe/alien_juice.png" alt="">
-            <img class="item" onclick="drink(10, 'apple_juice')" onmouseover="showInfo('apple_juice')" onmouseleave="showInfo('')" src="http://richard.bolya.eu/images/joe/apple_juice.png" alt="">
-            <img class="item" onclick="drink(1, 'beer')" onmouseover="showInfo('beer')" onmouseleave="showInfo('')" src="http://richard.bolya.eu/images/joe/beer.png" alt="">
-            <img class="item" onclick="drink(50, 'coffee')" onmouseover="showInfo('coffee')" onmouseleave="showInfo('')" src="http://richard.bolya.eu/images/joe/coffee.png" alt="">
-            <img class="item" onclick="drink(30, 'lemonade')" onmouseover="showInfo('lemonade')" onmouseleave="showInfo('')" src="http://richard.bolya.eu/images/joe/lemonade.png" alt="">
-        </div>
+            <span class="text">Italok</span>
+            <div class="inventory">
+                <img class="item" onclick="drink(200, 'alien_juice')" onmouseover="showInfo('alien_juice')" onmouseleave="showInfo('')" src="http://richard.bolya.eu/images/joe/alien_juice.png" alt="">
+                <img class="item" onclick="drink(110, 'apple_juice')" onmouseover="showInfo('apple_juice')" onmouseleave="showInfo('')" src="http://richard.bolya.eu/images/joe/apple_juice.png" alt="">
+                <img class="item" onclick="drink(10, 'beer')" onmouseover="showInfo('beer')" onmouseleave="showInfo('')" src="http://richard.bolya.eu/images/joe/beer.png" alt="">
+                <img class="item" onclick="drink(50, 'coffee')" onmouseover="showInfo('coffee')" onmouseleave="showInfo('')" src="http://richard.bolya.eu/images/joe/coffee.png" alt="">
+                <img class="item" onclick="drink(150, 'lemonade')" onmouseover="showInfo('lemonade')" onmouseleave="showInfo('')" src="http://richard.bolya.eu/images/joe/lemonade.png" alt="">
+            </div>
 
-        <span class="text">Szórakozás</span>
-        <div class="inventory">
-            <img class="item" onclick="play('basketball', 40)" onmouseover="showInfo('basketball')" onmouseleave="showInfo('')" src="http://richard.bolya.eu/images/joe/basketball.png" alt="">
-            <img class="item" onclick="play('fishing', 10)" onmouseover="showInfo('fishing')" onmouseleave="showInfo('')" src="http://richard.bolya.eu/images/joe/fishing.png" alt="">
-            <img class="item" onclick="play('cinema', 20)" onmouseover="showInfo('cinema')" onmouseleave="showInfo('')" src="http://richard.bolya.eu/images/joe/cinema.png" alt="">
-        </div>
+            <span class="text">Szórakozás</span>
+            <div class="inventory">
+                <img class="item" onclick="play('basketball', 150)" onmouseover="showInfo('basketball')" onmouseleave="showInfo('')" src="http://richard.bolya.eu/images/joe/basketball.png" alt="">
+                <img class="item" onclick="play('fishing', 50)" onmouseover="showInfo('fishing')" onmouseleave="showInfo('')" src="http://richard.bolya.eu/images/joe/fishing.png" alt="">
+                <img class="item" onclick="play('cinema', 400)" onmouseover="showInfo('cinema')" onmouseleave="showInfo('')" src="http://richard.bolya.eu/images/joe/cinema.png" alt="">
+                <img class="item" onclick="play('reddit', 400)" onmouseover="showInfo('reddit')" onmouseleave="showInfo('')" src="http://richard.bolya.eu/images/joe/reddit.png" alt="">
+                <img class="item" onclick="play('minecraft', 400)" onmouseover="showInfo('minecraft')" onmouseleave="showInfo('')" src="http://richard.bolya.eu/images/joe/minecraft.png" alt="">
+            </div>
 
-        <span class="text" id="food-info">&nbsp</span>
+            <span class="text">Alvás</span>
+            <div class="inventory">
+                <img class="item" onclick="sleep()" src="http://richard.bolya.eu/images/joe/bed.png" alt="">
+            </div>
+
+            <span class="text" id="food-info">&nbsp</span>
+        </div>
     </div>
     <div id="new-game" class="secret">
-        <button onclick="new_game()">Újra</button>
+        <button onclick="newGame()">Újra</button>
     </div>
+
+    <div id="footer">
+        <div id="chart"></div>
+    </div>
+
     <script src="script.js"></script>
 </body>
 
